@@ -1,0 +1,13 @@
+{
+  "user_id": "STU12345",
+  "role": "student", // or "faculty"
+  "name": "Jane Doe",
+  "email": "jane@university.edu",
+  "academic_info": {
+    "department": "CS",
+    "year": "2024",
+    "semester": 4,
+    "class": "A"
+  },
+  "roll_no": 42 // Only present if role is student
+}

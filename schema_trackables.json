@@ -1,0 +1,11 @@
+{
+  "student_id": "STU12345", // The "Foreign Key" link
+  "type": "IA", // "IA", "attendance", or "assignment"
+  "subject": "Data Structures",
+  "data": {
+    "marks": 18,
+    "percentage": null,
+    "late_by": null
+  },
+  "timestamp": "2024-03-10T..." 
+}
