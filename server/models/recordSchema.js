@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { analyzePerformance } from '../services/analyzerService.js';
+import { triggerAlert } from '../services/alertService.js';
 
 const { Schema } = mongoose;
 
@@ -6,8 +8,8 @@ const recordSchema = new Schema({
   student_id: {
     type: String,
     required: true,
-    ref: 'User', // References the 'User' model
-    index: true   // Added for faster querying by student
+    ref: 'User',
+    index: true
   },
   type: {
     type: String,
@@ -36,12 +38,21 @@ const recordSchema = new Schema({
   },
   timestamp: {
     type: Date,
-    default: Date.now // Defaults to the current time if not provided
+    default: Date.now
   }
 }, {
-  timestamps: true // Tracks when the record itself was created/updated
+  timestamps: true
 });
 
+// --- PERFORMANCE TRACKING HOOK ---
+
+recordSchema.post('save', async function (doc) {
+  const analysis = analyzePerformance(doc);
+
+  if (analysis.isAtRisk) {
+    await triggerAlert(doc.student_id, analysis.analysisResult);
+  }
+});
 const Record = mongoose.model('Record', recordSchema);
 
 export default Record;
