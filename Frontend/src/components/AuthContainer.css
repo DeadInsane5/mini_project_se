@@ -1,0 +1,289 @@
+/* AuthContainer.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding: 0;
+}
+
+.auth-container {
+  background-color: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+/* Forms container styles */
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+  opacity: 1;
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+  transform: translateX(100%);
+}
+
+.auth-container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+.auth-container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+  0%, 49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50%, 100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+/* Overlay Container */
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+/* The dark background overlay */
+.overlay {
+  background: var(--color-primary);
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: var(--color-white);
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+  /* Add curve effect to the left */
+  border-top-left-radius: 20% 50%;
+  border-bottom-left-radius: 20% 50%;
+}
+
+.auth-container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.auth-container.right-panel-active .overlay {
+  transform: translateX(50%);
+  /* Shift curve effect to the right */
+  border-radius: 0; /* reset */
+  border-top-right-radius: 20% 50%;
+  border-bottom-right-radius: 20% 50%;
+}
+
+/* Overlay Inner Panels */
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.auth-container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.auth-container.right-panel-active .overlay-right {
+  transform: translateX(20%);
+}
+
+/* Base Form Styles for Login/Signup Components */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-form h1 {
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
+}
+
+.auth-form label {
+  width: 100%;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  display: block;
+}
+
+.auth-form input, .auth-form select {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 12px 15px;
+  margin-bottom: var(--spacing-sm);
+  width: 100%;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.auth-form input:focus, .auth-form select:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Responsive row for short inputs like "Year", "Sem", "Div" */
+.form-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.form-row > div {
+  flex: 1;
+}
+
+.btn-primary {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in, background-color 0.2s;
+  cursor: pointer;
+  margin-top: var(--spacing-md);
+  width: 100%;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.ghost-btn {
+  background-color: transparent;
+  border-color: #ffffff;
+  border: 2px solid white;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 40px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+  margin-top: var(--spacing-lg);
+}
+
+.ghost-btn:active {
+  transform: scale(0.95);
+}
+
+.ghost-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-panel h2 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.overlay-panel p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.9;
+}
+
+/* Error/Help text */
+.help-text {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: -5px;
+  margin-bottom: var(--spacing-sm);
+  align-self: flex-start;
+}
+
+.scrollable-form {
+  overflow-y: auto;
+  max-height: 480px;
+  padding-right: 10px;
+}
+
+.scrollable-form::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable-form::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+.scrollable-form::-webkit-scrollbar-thumb {
+  background: #cbd5e1; 
+  border-radius: 10px;
+}
+.scrollable-form::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; 
+}

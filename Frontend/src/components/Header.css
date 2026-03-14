@@ -1,0 +1,112 @@
+/* ===========================
+   Header Component Styles
+   =========================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-white);
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Brand / Logo */
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.header__logo-icon {
+  width: 32px;
+  height: 32px;
+  fill: var(--color-primary);
+}
+
+.header__title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Right Controls */
+.header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* Notification Bell */
+.header__notification-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.header__notification-btn:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.05);
+}
+
+.header__notification-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text);
+}
+
+.header__notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-danger);
+  border-radius: 50%;
+  border: 2px solid var(--color-white);
+}
+
+/* Login Button */
+.header__login-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0.5rem 1.25rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.header__login-btn:hover {
+  background-color: #152e6e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+}
+
+.header__login-btn:active {
+  transform: translateY(0);
+}
+
+.header__login-btn svg {
+  width: 16px;
+  height: 16px;
+}

@@ -1,0 +1,22 @@
+# Student Dashboard Implementation Tasks
+
+- [ ] Create implementation plan for Student Dashboard
+- [ ] Implement TopBar component
+  - [ ] Add Website Name, Student ID, Profile Icon
+  - [ ] Add Profile Dropdown (Profile, Settings, Notifications, Logout)
+  - [ ] Add Flag Status in the middle
+- [ ] Implement Attendance Tab
+  - [ ] Add Attendance Flag logic (<75%)
+  - [ ] Add Timetable view
+  - [ ] Add Monthly Attendance view (clickable months and days with color coding)
+- [ ] Implement Marks Tab
+  - [ ] Add Marks Flag logic
+  - [ ] Add IA and Term Work toggle
+  - [ ] Display IA1/IA2 marks
+  - [ ] Display Term Work marks
+- [ ] Implement Assignments Tab
+  - [ ] Add Assignments Flag logic (>1 late)
+  - [ ] Add 2x2 grid (New, Delayed, Pending, Submitted)
+  - [ ] Display assignment lists with details
+- [ ] Assemble StudentDashboard component
+- [ ] Generate Walkthrough artifact

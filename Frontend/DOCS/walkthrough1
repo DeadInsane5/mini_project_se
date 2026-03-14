@@ -1,0 +1,39 @@
+# AcadPulse Dashboard — Walkthrough
+
+## What Was Built
+
+A professional React+Vite dashboard for **AcadPulse** — an early warning system for at-risk students.
+
+## Architecture
+
+```
+src/
+├── main.jsx              (entry point)
+├── index.css             (global styles + design tokens)
+├── App.jsx               (root component)
+└── components/
+    ├── Header.jsx + .css  (brand + bell + login)
+    └── Dashboard.jsx + .css (3 tab cards)
+```
+
+## Key Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| Inline SVG icons | No external deps, instant load, style with CSS |
+| CSS custom properties | Easy palette changes, used across all components |
+| BEM-style class naming | Professional, scalable, conflict-free |
+| Gradient icon backgrounds | Each card visually distinct — blue, teal, purple |
+
+## Browser Verification
+
+✅ All checks passed:
+- "AcadPulse" brand on the left with logo icon
+- Notification bell (with red badge) + Login button on the right
+- 3 vertically stacked cards: Attendance, Assignments, Internal Marks
+- Each card has a unique icon, description, and arrow indicator
+- Hover effects work (lift + shadow + border highlight)
+- Color palette matches spec (Dark Blue, Light Blue, Light Grey)
+- Inter font loaded from Google Fonts
+
+![Dashboard recording](C:/Users/Aryan Kamble/.gemini/antigravity/brain/9d33aeea-38eb-4f3b-92df-a73ce8061002/acadpulse_dashboard_1773247560031.webp)

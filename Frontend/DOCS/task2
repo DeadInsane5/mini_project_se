@@ -1,0 +1,7 @@
+# Authentication Pages Task List
+
+- [x] Create `AuthPage.css` with styles for the sliding curve animation and responsive layout.
+- [x] Create [Login.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Login.jsx) component for user login with conditional fields based on account type.
+- [x] Create [CreateAccount.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/CreateAccount.jsx) component for new user registration with conditional fields based on student/faculty roles.
+- [x] Create [AuthContainer.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/AuthContainer.jsx) as the parent component to manage the state between login and registration, applying the sliding curve animation.
+- [x] Update App routing/navigation to point to the new [AuthContainer](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/AuthContainer.jsx#6-51) component.

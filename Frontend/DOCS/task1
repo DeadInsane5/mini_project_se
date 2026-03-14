@@ -1,0 +1,15 @@
+# AcadPulse Dashboard - Frontend Setup
+
+## Setup
+- [ ] Initialize React + Vite project in the workspace
+- [ ] Install dependencies
+
+## Dashboard Implementation
+- [ ] Set up project structure (components folder)
+- [ ] Create global CSS with color palette and fonts
+- [ ] Build Header component (AcadPulse logo, notification bell, login button)
+- [ ] Build Dashboard page with 3 tab cards (Attendance, Assignments, Marks) with icons
+- [ ] Wire up App.jsx with the dashboard layout
+
+## Verification
+- [ ] Run dev server and visually verify in browser

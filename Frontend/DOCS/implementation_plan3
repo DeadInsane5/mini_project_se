@@ -1,0 +1,41 @@
+# Dashboard Fixes Implementation Plan
+
+This plan outlines the steps and code changes required to resolve the four issues identified in the Student Dashboard.
+
+## Proposed Changes
+
+### Core Functionality & State
+- **[MODIFY] App.jsx**: Ensure `userRole` and `identifier` (Student ID) are captured on login. Pass the `identifier` to `StudentDashboard` as a prop.
+- **[MODIFY] Login.jsx / AuthContainer.jsx**: Ensure the `identifier` input value is passed up the chain via the `onLogin` callback.
+- **[MODIFY] StudentDashboard.jsx**: Accept the `identifier` prop and pass it down to `TopBar`.
+
+### TopBar & Profile Dropdown
+- **[MODIFY] TopBar.jsx**: 
+  - Render the dynamic `studentId` prop instead of hardcoded text.
+  - Fix the Profile Dropdown interactions so clicking Theme/Notifications/Settings/Logout actually triggers functionality (e.g., toggling CSS themes or logging out).
+
+### Attendance Tab Logic
+- **[MODIFY] AttendanceTab.jsx**: 
+  - Replace the current hardcoded 30-day dummy array with a dynamic calendar engine.
+  - Calculate the correct number of days for the `selectedMonth`.
+  - Determine the starting day of the week for the 1st of the month to correctly align the dates under "Mon, Tue, Wed..." headers.
+  - Automatically mark weekends (Saturdays/Sundays) with the 'off' status.
+  - Add an `onClick` handler to the day cells to open a modal/popover displaying the missed lectures for that specific day.
+  - Create a simple Modal component within this file to show the detailed daily timetable/missed lectures.
+
+### Responsiveness
+- **[MODIFY] StudentDashboard.css**:
+  - Add/refine `@media` queries to ensure the dashboard layout (sidebar tabs vs main content) stacks correctly on smaller screens.
+  - Make sure grids (Attendance days, Assignments squares, Marks table) adjust column counts based on screen width.
+
+## Verification Plan
+
+### Automated/Local Testing
+1. **Routing & ID Verification**: Run `npm run dev`. Log in as a 'Student' with a specific ID (e.g., "12345"). Verify the dashboard loads and "12345" appears in the TopBar.
+2. **Profile Actions**: Click the profile icon. Verify the dropdown opens. Click "Theme" and verify the theme toggles. Click "Logout" and verify the app returns to the Auth Container.
+3. **Attendance Calendar**: Navigate to the Attendance tab. Verify the days align correctly with the Mon-Sun headers. Verify February has 28/29 days, and months like March have 31. Verify weekends are visually marked as "Off Day".
+4. **Attendance Modal**: Click on an individual day in the Attendance calendar. Verify a modal appears showing the timetable/missed lectures for that day.
+
+### Manual Responsive Testing
+1. Resize the browser window to mobile width (<600px). Verify the sidebar tabs become horizontally scrollable or stack. Verify grid elements (Assignments, Attendance days) resize appropriately without overflowing.
+2. Check on tablet width (~768px) for proper intermediate layouts.

@@ -1,0 +1,41 @@
+# Authentication Pages Walkthrough
+
+I have successfully designed and implemented the login and create account pages according to your specifications. The new authentication flow features a smooth, professional sliding curve animation to transition between the login and registration forms.
+
+## What was implemented
+
+### 1. The Sliding Curve Animation ([AuthContainer.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/AuthContainer.jsx) & [AuthContainer.css](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/AuthContainer.css))
+- **Container Architecture**: A split-screen layout where the background (the curve) smoothly slides across the screen when toggling between "Login" and "Create Account" states.
+- **Theme integration**: The active form sits on a light background (`--color-white`), while the sliding overlay curve uses your requested dark theme (`--color-primary` with a linear gradient to `--color-secondary`).
+- **Responsive design**: The component restricts maximum width and utilizes `transform` transitions for optimal smooth performance.
+
+### 2. Login Component ([Login.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Login.jsx))
+- **Account Types**: Dropdown with options for Student, Faculty, and Division Incharge.
+- **Conditional Fields**:
+  - `Student`: Asks for **Student ID / Email** and Password.
+  - `Faculty` / `Division Incharge`: Asks for **Email / Username** and Password.
+- Styled using a clean, modern aesthetic. 
+
+### 3. Create Account Component ([CreateAccount.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/CreateAccount.jsx))
+- **Account Types**: Student, Faculty.
+- **Conditional Roles**: If Faculty is selected, an additional "Role" dropdown appears allowing selection between **Lecturer** and **Incharge**.
+- **Conditional Student Fields**: 
+  - Standard inputs (Name, Email).
+  - Row layout for concise items: **Student ID**, **Roll No**, **Year** (FE,SE,TE,BE dropdown), **Semester** (1-8 dropdown), and **Division**.
+  - **Department**.
+- **Conditional Faculty Fields**:
+  - Standard inputs (Name, Email).
+  - **Department**.
+  - **Year and Div**: Specified as capable of holding multiple values (e.g. "SE A, TE B").
+  - Row layout for **Subject** and **Labs (If any)**.
+- Form includes an inner-scrolling mechanic to keep the overall UI card constrained while fitting all the necessary inputs comfortably.
+
+### 4. Integration ([App.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/App.jsx))
+- Wrapped the application in an `isAuthenticated` state.
+- Unauthenticated users will see the new [AuthContainer](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/AuthContainer.jsx#6-51) component by default. Once they click 'Sign In' (currently a placeholder action), they are logged in and gain access to the `Dashboard`.
+
+## Verification Steps
+You should now be able to run the development server (e.g., `npm run dev`) to test the following:
+1. You land on the beautiful Sign In page.
+2. Interacting with the "Create Account" or "Go to Login" ghost buttons inside the darker curve overlay triggers a smooth slide animation.
+3. Verify that selecting different account types in either the Login or Signup forms gracefully unmounts/remounts the correct related inputs seamlessly.

@@ -1,0 +1,47 @@
+# Student Dashboard Walkthrough
+
+## Summary of Work
+The sleek and highly-aesthetic Student Dashboard has been fully implemented. It adheres to all constraints visually and computationally (simulated via dummy state), and includes explicit connection points (code comments) illustrating how to fetch real data from the Node.js/Express and MongoDB backend.
+
+## File Structure
+To keep the application highly organized, all code related to the Student Dashboard runs inside its dedicated feature module:
+
+```
+src/
+└── components/
+    └── dashboard/
+        └── student/
+            ├── StudentDashboard.jsx    # Main container and layout wrapper state manager
+            ├── StudentDashboard.css    # Centralized stylesheet (glassmorphism/advanced UI)
+            ├── TopBar.jsx              # Navbar with IDs, risk flags, and Profile dropdown
+            ├── AttendanceTab.jsx       # Timetables, threshold flags (<75%), and monthly grids
+            ├── MarksTab.jsx            # Dynamic IA and Term Work marking views
+            └── AssignmentsTab.jsx      # 2x2 Tracker grid showing delayed/pending metrics
+```
+
+## Component Details & Backend Logic Locations
+
+### 1. [StudentDashboard.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/StudentDashboard.jsx) (The Wrapper)
+- **What it does:** Organizes layout and maintains the state for `activeTab` (switching between Attendance, Marks, Assignments) and global theme (Dark/Light).
+- **Backend Setup:** This is the ideal spot to fetch the core `studentProfile` payload containing their `studentId` and overall `flagStatus`. It passes this state down as props to [TopBar](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/TopBar.jsx#4-56).
+
+### 2. [TopBar.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/TopBar.jsx)
+- **What it does:** Displays the site name, global risk flag right in the center, and the user's profile icon. Clicking the icon opens a highly stylized dropdown containing options like Settings, Profile, Notifications, Theme Toggling, and Log out.
+
+### 3. [AttendanceTab.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/AttendanceTab.jsx)
+- **What it does:** Renders a flag if attendance is below constraints. Lists today's timetable. Displays a horizontal scroll view for months, which updates the clickable calendar grid below it. 
+- **Colors:** Green (Present), Red (Absent), Purple (Mix), Yellow (Off Day).
+- **Backend Setup:** Contains a fetch block to hit `/api/student/attendance` returning the percentages and missing lecture constraints.
+
+### 4. [MarksTab.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/MarksTab.jsx)
+- **What it does:** Houses its own sub-navigation for toggling between **IA Marks** and **Term Work Marks**. Highlights marks and renders warning flags if scores drop beneath the passing constraints.
+- **Backend Setup:** Has a designated fetching block pointing to `/api/student/marks` over Express/Mongo.
+
+### 5. [AssignmentsTab.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/dashboard/student/AssignmentsTab.jsx)
+- **What it does:** Visualizes four categories in an aesthetic 2x2 grid format (`New`, `Delayed`, `Pending`, `Submitted`). If the count for `Delayed` crosses the threshold (e.g., > 1), the flag warns the user.
+- **Backend Setup:** Contains placeholder logic linking to `/api/student/assignments`.
+
+## Aesthetics Applied
+- **Glassmorphism:** Leveraged throughout panels with transluscent backgrounds and blurred backdrops (`backdrop-filter`) for a premium modern look.
+- **Themes:** Included logic for standardizing color maps via CSS variables to smoothly handle CSS color inversion if the dark theme is toggled. 
+- **Micro-interactions:** Hover effects and pop-ins via custom CSS `keyframes` like `slideUp` and `fadeIn` are natively placed.

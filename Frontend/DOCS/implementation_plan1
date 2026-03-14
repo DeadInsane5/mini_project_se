@@ -1,0 +1,90 @@
+# AcadPulse Frontend Dashboard
+
+Build a professional, simple React+Vite dashboard for AcadPulse — an early warning system for at-risk students.
+
+## Design Spec
+
+- **Header**: "AcadPulse" on the left, notification bell + Login button on the right (login on extreme right, bell to its left)
+- **Center Content**: 3 large tab cards stacked vertically — Attendance, Assignments, Marks — each with an icon
+- **Color Palette**: Dark Blue `#1E3A8A`, Light Blue `#3B82F6`, Light Grey `#F3F4F6`, Red `#EF4444`
+- **Layout**: Flexbox throughout
+- **Style**: Professional, clean, simple — Google Fonts (Inter)
+
+## Proposed Changes
+
+### Project Initialization
+
+#### [NEW] React + Vite Project
+
+Scaffold a new React + Vite project in `d:\Engineering\SE\SEM 4\Mini Project` using `npx create-vite@latest`.
+
+---
+
+### Styling
+
+#### [NEW] [index.css](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/index.css)
+
+Global CSS with:
+- CSS variables for the color palette
+- Google Font import (Inter)
+- Reset/base styles
+- Header styles (flexbox, logo left, controls right)
+- Dashboard card styles (icon + text, hover effects, subtle shadows)
+
+---
+
+### Components
+
+#### [NEW] [Header.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Header.jsx)
+
+- Left: "AcadPulse" brand text in Dark Blue
+- Right: Bell icon (SVG inline) + "Login" button using flexbox, login on extreme right
+
+#### [NEW] [Header.css](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Header.css)
+
+Styles for the header component.
+
+#### [NEW] [Dashboard.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Dashboard.jsx)
+
+- 3 vertically stacked cards, each containing:
+  - **Attendance** — calendar/clipboard icon
+  - **Assignments** — document icon
+  - **Marks** — chart/grade icon
+- Cards use flexbox centering with icon + text
+- Hover animation (slight scale + shadow)
+
+#### [NEW] [Dashboard.css](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/components/Dashboard.css)
+
+Styles for the dashboard tab cards.
+
+---
+
+### App Entry
+
+#### [MODIFY] [App.jsx](file:///d:/Engineering/SE/SEM%204/Mini%20Project/src/App.jsx)
+
+Replace default Vite boilerplate with:
+- `<Header />` at top
+- `<Dashboard />` as main content
+
+#### [MODIFY] [index.html](file:///d:/Engineering/SE/SEM%204/Mini%20Project/index.html)
+
+Update page title to "AcadPulse".
+
+---
+
+### Cleanup
+
+Delete default Vite boilerplate files: `App.css`, default assets, etc.
+
+## Verification Plan
+
+### Browser Test
+1. Run `npm run dev` inside the project directory
+2. Open the dev server URL in the browser
+3. Visually verify:
+   - Header: "AcadPulse" text visible on the left, bell icon and Login button on the right
+   - Three cards stacked vertically in the center (Attendance, Assignments, Marks) with icons
+   - Color palette matches spec (dark blue header/brand, light grey background, blue accents)
+   - Hover effects on cards work
+   - Layout is clean and professional

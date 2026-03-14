@@ -1,0 +1,130 @@
+/* ===========================
+   Dashboard Component Styles
+   =========================== */
+
+.dashboard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  gap: var(--spacing-lg);
+}
+
+.dashboard__heading {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Tab Cards */
+.dashboard__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 480px;
+}
+
+.dashboard__card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background-color: var(--color-white);
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-secondary);
+}
+
+/* Icon Container */
+.dashboard__card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.dashboard__card-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-white);
+}
+
+/* Icon color variants */
+.dashboard__card-icon--attendance {
+  background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+}
+
+.dashboard__card-icon--assignments {
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+
+.dashboard__card-icon--marks {
+  background: linear-gradient(135deg, #9333ea, #a855f7);
+}
+
+/* Text area */
+.dashboard__card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dashboard__card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.dashboard__card-description {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* Arrow indicator */
+.dashboard__card-arrow {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.dashboard__card:hover .dashboard__card-arrow {
+  background-color: #dbeafe;
+  transform: translateX(2px);
+}
+
+.dashboard__card-arrow svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+}
+
+.dashboard__card:hover .dashboard__card-arrow svg {
+  color: var(--color-secondary);
+}
