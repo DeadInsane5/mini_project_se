@@ -30,7 +30,11 @@ export const getRecords = async (req, res) => {
 // @route   GET /api/records/student/:studentId
 export const getStudentRecords = async (req, res) => {
   try {
-    const records = await Record.find({ student_id: req.params.studentId })
+    const { type } = req.query;
+    const filter = { student_id: req.params.studentId };
+    if (type) filter.type = type;
+
+    const records = await Record.find(filter)
       .sort({ timestamp: -1 });
     res.status(200).json(records);
   } catch (error) {
