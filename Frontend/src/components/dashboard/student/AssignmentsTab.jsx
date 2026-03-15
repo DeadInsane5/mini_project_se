@@ -1,32 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './StudentDashboard.css';
+import { API_BASE_URL } from '../../../config';
 
-const AssignmentsTab = () => {
-  /*
-   * DATA FETCHING COMMENT:
-   * This component accesses assignments data from the backend MongoDB via Node/Express.
-   * Total count per category is checked to determine the main assignments flag.
-   * Example: 
-   * fetch('/api/student/assignments', { method: 'GET', headers: { Authorization: `Bearer ${token}` }})
-   * .then(res => res.json())
-   * .then(data => setAssignments(data));
-   */
-   
+const AssignmentsTab = ({ studentId, notifications }) => {
+  const [assignmentRecords, setAssignmentRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeSquare, setActiveSquare] = useState(null);
-  
-  // Dummy State mimicking DB output
-  const delayedCount = 2; // Derived from backend counting delayed array.
-  const hasMultipleDelayed = delayedCount > 1; // Flag constraint: > 1 assignment late
+
+  const tabNotifications = notifications?.filter(n => n.type === 'submission_alert') || [];
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_BASE_URL}/records/student/${studentId}?type=assignment`);
+        if (res.ok) {
+          const data = await res.json();
+          setAssignmentRecords(data);
+        }
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAssignments();
+  }, [studentId]);
+
+  // Derive categories from DB
+  const delayedArr = assignmentRecords.filter(r => r.data.late_by !== null);
+  const submittedArr = assignmentRecords.filter(r => r.data.marks !== null);
+  const pendingArr = assignmentRecords.filter(r => r.data.marks === null && r.data.late_by === null);
+  const newArr = []; // Could be based on timestamp < 2 days
 
   const assignments = {
-    new: [{ id: 1, title: 'Math Worksheet 4', subject: 'Math', faculty: 'Prof. Smith' }],
-    delayed: [
-      { id: 2, title: 'Science Lab Report', subject: 'Science', faculty: 'Dr. Jones' },
-      { id: 3, title: 'English Essay', subject: 'English', faculty: 'Prof. Davis' }
-    ],
-    pending: [{ id: 4, title: 'History Project', subject: 'History', faculty: 'Mr. White' }],
-    submitted: [{ id: 5, title: 'Math Worksheet 3', subject: 'Math', faculty: 'Prof. Smith' }]
+    new: newArr,
+    delayed: delayedArr.map(r => ({ id: r._id, title: r.subject, subject: r.subject, faculty: 'Prof. Unknown' })),
+    pending: pendingArr.map(r => ({ id: r._id, title: r.subject, subject: r.subject, faculty: 'Prof. Unknown' })),
+    submitted: submittedArr.map(r => ({ id: r._id, title: r.subject, subject: r.subject, faculty: 'Prof. Unknown' }))
   };
+
+  const delayedCount = delayedArr.length;
+  const hasMultipleDelayed = delayedCount > 1;
 
   const renderDetails = () => {
     if (!activeSquare) return null;
@@ -58,6 +73,16 @@ const AssignmentsTab = () => {
           <span className="flag risk-flag">⚠️ Multiple Delayed ({delayedCount})</span>
         )}
       </div>
+
+      {tabNotifications.length > 0 && (
+        <div className="tab-notifications glass-panel slide-up">
+          {tabNotifications.map(n => (
+            <div key={n._id} className={`notif-item ${n.priority}`}>
+              <strong>{n.title}</strong>: {n.message}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="assignment-grid 2x2-grid slide-up">
         <div className="grid-square new" onClick={() => setActiveSquare('new')}>
