@@ -1,25 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './StudentDashboard.css';
+import { API_BASE_URL } from '../../../config';
 
-const AttendanceTab = () => {
-  /*
-   * DATA FETCHING COMMENT:
-   * This component will fetch attendance data from the Node.js/Express backend.
-   * Example integration: 
-   * fetch('/api/student/attendance', { method: 'GET', headers: { Authorization: `Bearer ${token}` }})
-   * .then(res => res.json())
-   * .then(data => setAttendanceData(data));
-   */
-  
-  const currentYear = new Date().getFullYear(); // e.g. 2026
+const AttendanceTab = ({ studentId, notifications }) => {
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const currentYear = new Date().getFullYear();
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  
-  // State to manage the currently selected month. Defaults to the current actual month.
   const [selectedMonth, setSelectedMonth] = useState(months[new Date().getMonth()]);
-  
-  // Dummy data
-  const averageAttendance = 72; // Threshold constraint defined in backend (<75%)
-  const dummyTimetable = ["Math - 9:00 AM", "Science - 10:00 AM", "History - 11:30 AM"];
+
+  const tabNotifications = notifications?.filter(n => n.type === 'attendance_alert') || [];
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_BASE_URL}/records/student/${studentId}?type=attendance`);
+        if (res.ok) {
+          const data = await res.json();
+          setAttendanceRecords(data);
+        }
+      } catch (error) {
+        console.error("Error fetching attendance:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAttendance();
+  }, [studentId]);
+
+  // Helper to get records for a specific date
+  const getRecordForDate = (day, monthIdx) => {
+    return attendanceRecords.find(r => {
+      const d = new Date(r.timestamp);
+      return d.getDate() === day && d.getMonth() === monthIdx && d.getFullYear() === currentYear;
+    });
+  };
+
+  // Average attendance calculation from DB records
+  const averageAttendance = attendanceRecords.length > 0 
+    ? Math.round(attendanceRecords.reduce((acc, r) => acc + (r.data.percentage || 0), 0) / attendanceRecords.length)
+    : 72; // Default fallback if no records
   
   const getMonthIndex = (monthName) => months.indexOf(monthName);
   
@@ -42,22 +63,31 @@ const AttendanceTab = () => {
   for (let i = 0; i < startDay; i++) {
     calendarDays.push({ type: 'empty', id: `empty-${i}` });
   }
-  // 2. actual days
+  // actual days
   for (let i = 1; i <= totalDays; i++) {
     const dayOfWeek = (startDay + i - 1) % 7;
     const isWeekend = dayOfWeek === 5 || dayOfWeek === 6; // Sat or Sun
     
-    // Pseudo logic for demo 
+    // Check if we have a real record from DB
+    const record = getRecordForDate(i, currentMonthIdx);
+    
     let status = 'present';
-    if (isWeekend) status = 'off';
-    else if (i % 6 === 0) status = 'absent';
-    else if (i % 8 === 0) status = 'mix';
+    if (record) {
+      if (record.data.percentage < 75) status = 'absent';
+      else if (record.data.percentage < 100) status = 'mix';
+    } else if (isWeekend) {
+      status = 'off';
+    } else {
+      // Default placeholder if no data and not weekend (assuming present for now)
+      status = 'present';
+    }
 
     calendarDays.push({
       type: 'day',
       id: `day-${i}`,
       day: i,
-      status: status
+      status: status,
+      subject: record ? record.subject : null
     });
   }
 
@@ -66,8 +96,8 @@ const AttendanceTab = () => {
   const handleDayClick = (dayData) => {
     if (dayData.type === 'empty' || dayData.status === 'off') return;
     
-    const missed = dayData.status === 'absent' ? ["Math - 9:00 AM", "History - 11:30 AM"] :
-                   dayData.status === 'mix' ? ["Science - 10:00 AM"] : [];
+    const missed = dayData.status === 'absent' ? [`${dayData.subject || 'All lectures'}`] :
+                   dayData.status === 'mix' ? [`${dayData.subject || 'One lecture'}`] : [];
                    
     setModalData({
       day: dayData.day,
@@ -76,6 +106,8 @@ const AttendanceTab = () => {
       missedLectures: missed
     });
   };
+
+  if (loading) return <div className="loading-screen">Loading Attendance...</div>;
 
   return (
     <div className="attendance-tab fade-in">
@@ -86,14 +118,20 @@ const AttendanceTab = () => {
         )}
       </div>
 
-      <div className="timetable-section glass-panel slide-up">
-        <h3>Today's Timetable</h3>
-        <p className="subtitle">Average Attendance: <strong>{averageAttendance}%</strong></p>
-        <ul className="timetable-list">
-          {dummyTimetable.map((tt, i) => (
-            <li key={i}>{tt}</li>
+      {tabNotifications.length > 0 && (
+        <div className="tab-notifications glass-panel slide-up">
+          {tabNotifications.map(n => (
+            <div key={n._id} className={`notif-item ${n.priority}`}>
+              <strong>{n.title}</strong>: {n.message}
+            </div>
           ))}
-        </ul>
+        </div>
+      )}
+
+      <div className="timetable-section glass-panel slide-up">
+        <h3>Academic Progress</h3>
+        <p className="subtitle">Overall Attendance: <strong>{averageAttendance}%</strong></p>
+        <p>Real-time data synced with MongoDB.</p>
       </div>
 
       <div className="monthly-attendance-section glass-panel slide-up" style={{ animationDelay: '0.1s' }}>

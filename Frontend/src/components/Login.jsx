@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 const Login = ({ onLogin }) => {
   const [accountType, setAccountType] = useState('Student');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Dummy login logic
-    if (onLogin) onLogin(accountType, identifier);
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/${identifier}`);
+      
+      if (response.ok) {
+        const user = await response.json();
+        
+        // Check if the account type matches the role in DB
+        if (user.role.toLowerCase() === accountType.toLowerCase()) {
+          if (onLogin) onLogin(accountType, user.user_id);
+        } else {
+          alert(`Account found, but it is not registered as ${accountType}`);
+        }
+      } else {
+        alert('User not found. Please create an account.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Failed to connect to the server.');
+    }
   };
 
   return (

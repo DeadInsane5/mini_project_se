@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 const CreateAccount = ({ onLoginClick }) => {
   const [accountType, setAccountType] = useState('Student');
@@ -6,26 +7,51 @@ const CreateAccount = ({ onLoginClick }) => {
   // Faculty specific
   const [facultyRole, setFacultyRole] = useState('Lecturer');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     
-    data.accountType = accountType;
-    if (accountType === 'Faculty') {
-      data.role = facultyRole;
-    }
-
     if (data.password !== data.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    // Store in local storage
-    localStorage.setItem('userSignupData', JSON.stringify(data));
-    
-    // Smooth transition back to login page
-    if (onLoginClick) onLoginClick();
+    // Map to User Schema
+    const payload = {
+      user_id: accountType === 'Student' ? data.studentId : data.email, // Using email as ID for faculty for now
+      role: accountType.toLowerCase(),
+      name: data.fullName,
+      email: data.email,
+      academic_info: {
+        department: data.department,
+        year: data.year,
+        semester: data.semester ? parseInt(data.semester) : undefined,
+        class: data.division
+      },
+      roll_no: data.rollNo ? parseInt(data.rollNo) : undefined
+    };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Account created successfully!');
+        if (onLoginClick) onLoginClick();
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Failed to connect to the server.');
+    }
   };
 
   return (

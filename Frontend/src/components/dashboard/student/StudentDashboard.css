@@ -687,3 +687,40 @@ body {
   padding-top: 20px;
   border-top: 1px solid var(--glass-border);
 }
+
+/* Tab specific notifications */
+.tab-notifications {
+  margin-bottom: 25px;
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 5px solid var(--accent-color);
+  background: rgba(66, 153, 225, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  font-size: 0.95rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid var(--glass-border);
+}
+
+.notif-item.high {
+  border-left: 4px solid var(--danger-color);
+  background: rgba(245, 101, 101, 0.1);
+}
+
+.notif-item.medium {
+  border-left: 4px solid var(--warning-color);
+  background: rgba(237, 137, 54, 0.1);
+}
+
+.notif-item strong {
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 4px;
+}
