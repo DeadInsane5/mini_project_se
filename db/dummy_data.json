@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "_id": { "$oid": "65f000000000000000000001" },
+      "name": "Rahul Sharma",
+      "email": "rahul@gmail.com",
+      "role": "student",
+      "department": "Computer Engineering",
+      "year": "SY",
+      "semester": 4,
+      "roll_no": 23,
+      "subjects": ["DBMS", "OS", "CN"],
+      "classes": ["CE-A"],
+      "createdAt": { "$date": "2026-03-01T10:00:00Z" }
+    },
+    {
+      "_id": { "$oid": "65f000000000000000000002" },
+      "name": "Anita Verma",
+      "email": "anita@gmail.com",
+      "role": "student",
+      "department": "Computer Engineering",
+      "year": "SY",
+      "semester": 4,
+      "roll_no": 45,
+      "subjects": ["DBMS", "OS", "AI"],
+      "classes": ["CE-B"],
+      "createdAt": { "$date": "2026-03-01T10:05:00Z" }
+    }
+  ],
+
+  "trackables": [
+    {
+      "_id": { "$oid": "65f100000000000000000001" },
+      "student_id": { "$oid": "65f000000000000000000001" },
+      "type": "exam",
+      "subject": "DBMS",
+      "metadata": {
+        "exam_name": "Internal Test 1",
+        "max_marks": 100
+      },
+      "marks": 78,
+      "percentage": 78,
+      "month": "March",
+      "createdAt": { "$date": "2026-03-10T09:30:00Z" }
+    },
+    {
+      "_id": { "$oid": "65f100000000000000000002" },
+      "student_id": { "$oid": "65f000000000000000000001" },
+      "type": "task",
+      "subject": "DBMS",
+      "metadata": {
+        "title": "Revise Normalization",
+        "priority": "high",
+        "deadline": "2026-03-20"
+      },
+      "percentage": 0,
+      "month": "March",
+      "createdAt": { "$date": "2026-03-15T07:00:00Z" }
+    },
+    {
+      "_id": { "$oid": "65f100000000000000000003" },
+      "student_id": { "$oid": "65f000000000000000000002" },
+      "type": "assignment",
+      "subject": "AI",
+      "metadata": {
+        "assignment_no": 2,
+        "due_date": "2026-03-18",
+        "status": "pending"
+      },
+      "late_by": 2,
+      "month": "March",
+      "createdAt": { "$date": "2026-03-12T11:15:00Z" }
+    }
+  ]
+}
